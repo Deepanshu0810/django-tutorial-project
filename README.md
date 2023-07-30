@@ -23,3 +23,19 @@ django-admin startproject studybud
 cd studybud
 python manage.py runserver
 ```
+
+# Creating an app
+```bash
+python manage.py startapp base
+```
+
+# Creating a superuser
+```bash
+python manage.py createsuperuser
+```
+
+# migrating the models
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
