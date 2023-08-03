@@ -26,7 +26,12 @@ def home(request):
     )
     topics = Topic.objects.all()
     room_count = rooms.count()
-    context = {'rooms':rooms, 'topics':topics, 'room_count':room_count}
+    room_messages = Message.objects.filter(
+        Q(room__name__icontains=q)|
+        Q(room__topic__name__icontains=q)
+    )[:4]
+
+    context = {'rooms':rooms, 'topics':topics, 'room_count':room_count, 'room_messages':room_messages}
     return render(request,'home.html',context)
 
 def room(request,pk):
@@ -105,6 +110,14 @@ def deleteRoom(request,pk):
     
     context = {'obj':room}
     return render(request,'delete.html',context)
+
+def userProfile(request,pk):
+    user = User.objects.get(id=pk)
+    rooms = user.room_set.all()
+    topics = Topic.objects.all()
+    room_messages = user.message_set.all().order_by('-created')
+    context = {'user':user,'rooms':rooms,'topics':topics,'room_messages':room_messages}
+    return render(request,'profile.html',context)
 
 def loginPage(request):
     page = 'login'
