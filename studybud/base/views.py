@@ -29,7 +29,7 @@ def home(request):
     room_messages = Message.objects.filter(
         Q(room__name__icontains=q)|
         Q(room__topic__name__icontains=q)
-    )[:4]
+    ).order_by('-created')[:4]
 
     context = {'rooms':rooms, 'topics':topics, 'room_count':room_count, 'room_messages':room_messages}
     return render(request,'home.html',context)
@@ -73,7 +73,9 @@ def createRoom(request):
     if request.method == 'POST':
         form = RoomForm(request.POST)
         if form.is_valid():
-            form.save()
+            room = form.save(commit=False) # we don't want to save the room yet
+            room.host = request.user # the host is the current user
+            room.save()
             return redirect('home')
     
     context = {'form':form}
