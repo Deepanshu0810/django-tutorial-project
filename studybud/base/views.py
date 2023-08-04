@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
 from .models import Room, Topic, Message
 from django.contrib.auth.models import User
-from .forms import RoomForm
+from .forms import RoomForm, UserForm
 
 # Create your views here.
 # rooms = [
@@ -64,7 +64,7 @@ def deleteMessage(request,pk):
         msg.delete()
         return redirect('room',pk=msg.room.id)
     
-    context = {'obj':msg}
+    context = {'msg':msg}
     return render(request,'delete.html',context)
 
 @login_required(login_url='login')
@@ -154,7 +154,7 @@ def loginPage(request):
             messages.error(request,'Username OR password is incorrect')
 
     context = {'page':page}
-    return render(request,'login_register.html',context)
+    return render(request,'login.html',context)
 
 def logoutUser(request):
     logout(request)
@@ -174,4 +174,18 @@ def registerPage(request):
             return redirect('home')
         else:
             messages.error(request,'An error occured during registration')  
-    return render(request,'login_register.html',context)
+    return render(request,'register.html',context)
+
+@login_required(login_url='login')
+def updateUser(request):
+    user = request.user
+    form = UserForm(instance=user)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST,instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user',pk=user.id)
+    
+    context = {'form':form}
+    return render(request,'update_user.html',context)
