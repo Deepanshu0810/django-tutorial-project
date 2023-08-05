@@ -8,6 +8,10 @@ urlpatterns = [
     path('register/',views.registerPage,name='register'),
     path('user/<str:pk>/',views.userProfile,name='user'),
 
+    # mobile views
+    path('activity/',views.activity,name='activity'),
+    path('topics/',views.topics,name='topics'),
+
     path('room/<str:pk>/',views.room,name='room'),
     path('delete-message/<str:pk>/',views.deleteMessage,name='delete-message'),
     path('create-room/',views.createRoom,name='create-room'),
