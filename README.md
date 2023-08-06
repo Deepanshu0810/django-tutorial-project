@@ -39,3 +39,10 @@ python manage.py createsuperuser
 python manage.py makemigrations
 python manage.py migrate
 ```
+
+# StudyBud App
+
+<img>![StudyBud](./Screenshots/home%20page.png)</img>
+<img>![StudyBud](./Screenshots/login%20page.png)</img>
+<img>![StudyBud](./Screenshots/user%20profile.png)</img>
+<img>![StudyBud](./Screenshots/study%20room.png)</img>
